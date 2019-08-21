@@ -6,7 +6,11 @@
     "bootstrap": "^4.3.1",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.11",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "husky": "^3.0.4",
@@ -35,5 +39,9 @@
       "last 1 safari version"
     ]
   },
-  "husky": { "hooks": { "pre-commit": "pretty-quick --staged" } }
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }
