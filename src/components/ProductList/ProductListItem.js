@@ -15,7 +15,8 @@ class ProductListItem extends React.Component {
         image: this.props.image,
         price: this.props.price,
         productCategory: this.props.productCategory,
-        productName: this.props.productName
+        productName: this.props.productName,
+        description: this.props.description
       }
     });
   }
@@ -23,7 +24,12 @@ class ProductListItem extends React.Component {
   render() {
     return (
       <div>
-        <img width={250} height={250} src={this.props.image} />
+        <img
+          width={250}
+          height={250}
+          alt={"Product List Item"}
+          src={this.props.image}
+        />
         <div>{this.props.productCategory}</div>
         <div>{this.props.productName}</div>
         <div>{this.props.price}</div>

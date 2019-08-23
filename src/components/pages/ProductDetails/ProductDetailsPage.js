@@ -1,5 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class ProductDetailsPage extends React.Component {
   constructor(props) {
@@ -18,8 +21,6 @@ class ProductDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    const productDetails = this.props.history.location.state;
-    console.log("ProductInfo: ", productDetails);
     this.setState({
       productDetails: this.props.history.location.state.productDetails
     });
@@ -28,29 +29,35 @@ class ProductDetailsPage extends React.Component {
   render() {
     return (
       this.state.productDetails && (
-        <div>
-          <div>
-            <div>
-              <h2>Product Details Page</h2>
-              <img src={this.state.productDetails.image} />
-            </div>
-            <div>
+        <Container>
+          <Row>
+            <Col>
+              <img
+                src={this.state.productDetails.image}
+                width={300}
+                height={300}
+                alt={"Product Details"}
+              />
+            </Col>
+            <Col>
               <h3>{this.state.productDetails.productCategory}</h3>
               <h2>{this.state.productDetails.productName}</h2>
-              <p>{this.state.productDetails.price}</p>
+              <p>${this.state.productDetails.price}</p>
               <Button
                 variant="outline-primary"
                 onClick={this.onAddToCartPressed}
               >
                 Add to Cart
               </Button>
-            </div>
-          </div>
-          <div>
-            <h2>Description</h2>
-            <p>{"Description goes here."}</p>
-          </div>
-        </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h2>Description</h2>
+              <p>{this.state.productDetails.description}</p>
+            </Col>
+          </Row>
+        </Container>
       )
     );
   }

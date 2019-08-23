@@ -67,6 +67,7 @@ class ProductList extends React.Component {
                     productCategory={product.product_category}
                     productName={product.product_name}
                     price={product.price}
+                    description={product.description}
                   />
                 </Col>
               );
