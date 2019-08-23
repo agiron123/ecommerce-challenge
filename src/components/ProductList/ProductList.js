@@ -3,6 +3,8 @@ import ProductListItem from "./ProductListItem";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import ProductDetailsPage from "../pages/ProductDetails/ProductDetailsPage";
+import { Route } from "react-router-dom";
 
 class ProductList extends React.Component {
   constructor(props) {
@@ -79,6 +81,10 @@ class ProductList extends React.Component {
     return (
       <div>
         <Container>{this.renderProducts()}</Container>
+        <Route
+          path={`${this.props.match.path}/detail/:id`}
+          component={ProductDetailsPage}
+        />
       </div>
     );
   }
