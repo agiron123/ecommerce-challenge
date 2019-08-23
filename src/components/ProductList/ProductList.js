@@ -82,10 +82,6 @@ class ProductList extends React.Component {
     return (
       <div>
         <Container>{this.renderProducts()}</Container>
-        <Route
-          path={`${this.props.match.path}/detail/:id`}
-          component={ProductDetailsPage}
-        />
       </div>
     );
   }
