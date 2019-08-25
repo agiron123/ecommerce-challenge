@@ -7,6 +7,7 @@ import configureStore from "./configureStore";
 import ProductList from "./components/ProductList/ProductList";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import ProductDetailsPage from "./components/pages/ProductDetails/ProductDetailsPage";
+import CartPage from "./components/pages/Cart/CartPage";
 
 const store = configureStore();
 
@@ -23,6 +24,7 @@ function App() {
 
         <Route exact path="/" component={ProductList} />
         <Route exact path="/details" component={ProductDetailsPage} />
+        <Route exact path="/cart" component={CartPage} />
       </Router>
     </Provider>
   );
