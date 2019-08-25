@@ -1,13 +1,23 @@
+import "./CartPage.css";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "./CartPage.css";
+import { withRouter } from "react-router-dom";
 
 class CartPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.onProceedToCheckoutClicked = this.onProceedToCheckoutClicked.bind(
+      this
+    );
+  }
+
+  onProceedToCheckoutClicked() {
+    // Take user to the checkout page. Cart contents is stored in the cartReducer.
+    this.props.history.push("/checkout");
   }
 
   render() {
@@ -19,7 +29,12 @@ class CartPage extends React.Component {
             <p>Your Total: $450.00</p>
           </Col>
           <Col>
-            <Button variant="outline-primary">Proceed to Checkout</Button>
+            <Button
+              variant="outline-primary"
+              onClick={this.onProceedToCheckoutClicked}
+            >
+              Proceed to Checkout
+            </Button>
           </Col>
         </Row>
 
@@ -29,6 +44,7 @@ class CartPage extends React.Component {
               src={"http://dummyimage.com/500x500.png/cc0000/ffffff"}
               width={250}
               height={250}
+              alt="Clothing Item"
             />
           </Col>
           <Col>
@@ -44,6 +60,7 @@ class CartPage extends React.Component {
               src={"http://dummyimage.com/500x500.png/cc0000/ffffff"}
               width={250}
               height={250}
+              alt="Clothing Item"
             />
           </Col>
           <Col>
@@ -57,4 +74,4 @@ class CartPage extends React.Component {
   }
 }
 
-export default CartPage;
+export default withRouter(CartPage);

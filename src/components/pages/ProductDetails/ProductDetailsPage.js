@@ -21,9 +21,11 @@ class ProductDetailsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      productDetails: this.props.history.location.state.productDetails
-    });
+    if (this.props.history.location) {
+      this.setState({
+        productDetails: this.props.history.location.state.productDetails
+      });
+    }
   }
 
   render() {

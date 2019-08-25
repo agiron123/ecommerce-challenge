@@ -5,16 +5,17 @@ import React from "react";
 import { Provider } from "react-redux";
 import configureStore from "./configureStore";
 import ProductList from "./components/ProductList/ProductList";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import ProductDetailsPage from "./components/pages/ProductDetails/ProductDetailsPage";
 import CartPage from "./components/pages/Cart/CartPage";
+import CheckoutPage from "./components/pages/Checkout/CheckoutPage";
 
 const store = configureStore();
 
 function App() {
   return (
     <Provider store={store}>
-      <Router>
+      <BrowserRouter>
         <div className="App">
           <header>
             <ECommerceNavigationBar />
@@ -25,7 +26,8 @@ function App() {
         <Route exact path="/" component={ProductList} />
         <Route exact path="/details" component={ProductDetailsPage} />
         <Route exact path="/cart" component={CartPage} />
-      </Router>
+        <Route exact path="/checkout" component={CheckoutPage} />
+      </BrowserRouter>
     </Provider>
   );
 }
