@@ -3,8 +3,6 @@ import ProductListItem from "./ProductListItem";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ProductDetailsPage from "../pages/ProductDetails/ProductDetailsPage";
-import { Route } from "react-router-dom";
 
 class ProductList extends React.Component {
   constructor(props) {
