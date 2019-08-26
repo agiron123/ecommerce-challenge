@@ -29,7 +29,7 @@ class ProductList extends React.Component {
   }
 
   chunkProductsArray() {
-    // https://stackoverflow.com/questions/8495687/split-array-into-chunks/10456644#10456644
+    // Fun stuff: https://stackoverflow.com/questions/8495687/split-array-into-chunks/10456644#10456644
     let perChunk = 3; // items per chunk
     let inputArray = this.state.products;
     const result = inputArray.reduce((resultArray, item, index) => {
@@ -44,8 +44,6 @@ class ProductList extends React.Component {
       return resultArray;
     }, []);
 
-    console.log("Chunked Array: ", result);
-
     return result;
   }
 
@@ -54,18 +52,21 @@ class ProductList extends React.Component {
     // Render each individual array as a row on the grid.
     if (this.state.products) {
       let rows = this.chunkProductsArray();
-      return rows.map(products => {
+      return rows.map((products, productPageIndex) => {
         return (
-          <Row>
+          <Row key={productPageIndex}>
             {products.map(product => {
               return (
                 <Col>
                   <ProductListItem
+                    key={product.product_id}
+                    productId={product.product_id}
                     image={product.image}
                     productCategory={product.product_category}
                     productName={product.product_name}
                     price={product.price}
                     description={product.description}
+                    color={product.color}
                   />
                 </Col>
               );
