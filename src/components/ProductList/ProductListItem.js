@@ -1,17 +1,36 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
+import { addItemToCart } from "../../actions/cartActions";
+import { connect } from "react-redux";
 
 class ProductListItem extends React.Component {
   constructor(props) {
     super(props);
 
     this.onDetailsClicked = this.onDetailsClicked.bind(this);
+    this.onAddToCartClicked = this.onAddToCartClicked.bind(this);
+  }
+
+  onAddToCartClicked() {
+    let item = {
+      productId: this.props.productId,
+      color: this.props.color,
+      image: this.props.image,
+      price: this.props.price,
+      productCategory: this.props.productCategory,
+      productName: this.props.productName,
+      description: this.props.description
+    };
+
+    this.props.addItemToCart(item);
   }
 
   onDetailsClicked() {
     this.props.history.push("/details", {
       productDetails: {
+        productId: this.props.productId,
+        color: this.props.color,
         image: this.props.image,
         price: this.props.price,
         productCategory: this.props.productCategory,
@@ -36,10 +55,23 @@ class ProductListItem extends React.Component {
         <Button variant="outline-info" onClick={this.onDetailsClicked}>
           Details >
         </Button>
-        <Button variant="outline-primary">Add to Cart</Button>
+        <Button variant="outline-primary" onClick={this.onAddToCartClicked}>
+          Add to Cart
+        </Button>
       </div>
     );
   }
 }
 
-export default withRouter(ProductListItem);
+const mapDispatchToProps = dispatch => {
+  return {
+    addItemToCart: item => dispatch(addItemToCart(item))
+  };
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(ProductListItem)
+);
