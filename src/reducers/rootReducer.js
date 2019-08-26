@@ -17,9 +17,6 @@ function cartReducer(
     }
 
     case REMOVE_ITEM: {
-      console.log("REMOVE_ITEM reducer.");
-      console.log("ACTION: ", action);
-
       return {
         ...state,
         items: [

@@ -44,12 +44,7 @@ class CartPage extends React.Component {
   }
 
   onRemoveFromCartClicked(index) {
-    console.log("RemoveFromCart index: ", index);
     this.props.removeItemFromCartByIndex(index);
-  }
-
-  componentDidMount() {
-    console.log("Cart: ", this.props.cartItems);
   }
 
   renderCartList() {

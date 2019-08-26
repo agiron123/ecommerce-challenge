@@ -44,8 +44,6 @@ class ProductList extends React.Component {
       return resultArray;
     }, []);
 
-    console.log("Chunked Array: ", result);
-
     return result;
   }
 
