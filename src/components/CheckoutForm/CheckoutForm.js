@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { withRouter } from "react-router-dom";
 
-const schema = Yup.object().shape({
+const schema = Yup.object({
   firstName: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
@@ -20,10 +20,6 @@ const schema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  streetLineTwo: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
   city: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
@@ -33,33 +29,22 @@ const schema = Yup.object().shape({
     .max(50, "Too Long!")
     .required("Required"),
   zip: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
+    .min(5, "Too Short!")
+    .max(12, "Too Long!")
     .required("Required"),
   paymentCardNumber: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
+    .min(14, "Too Short!")
+    .max(17, "Too Long!")
     .required("Required"),
-  paymentCardExpiration: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  paymentCardCVV: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required")
+  paymentCardExpiration: Yup.string().required("Required"),
+  paymentCardCVV: Yup.string().required("Required")
 });
 
 function CheckoutForm(props) {
-  const [lgShow, setLgShow] = useState(true);
-
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const hideModal = () => {
-    console.log("Hide Modal");
-    // TODO: Set modal to not visible anymore.
-    setIsSuccessModalVisible(false);
 
-    // Navigate to the home page.
+  const hideModal = () => {
+    setIsSuccessModalVisible(false);
     props.history.push("/");
   };
 
@@ -68,15 +53,16 @@ function CheckoutForm(props) {
       <SuccessModal isVisible={isSuccessModalVisible} hideModal={hideModal} />
       <Formik
         validationSchema={schema}
-        onSubmit={(values, { setSubmitting }) => {
-          debugger;
-          // TODO: Show success modal in here.
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+        onSubmit={(values, actions) => {
+          setIsSuccessModalVisible(true);
+
+          // applying HOC-pattern
+          actions.setSubmitting(false);
         }}
-        initialValues={{}}
+        initialValues={{
+          firstName: "Mark",
+          lastName: "Otto"
+        }}
       >
         {({
           handleSubmit,
@@ -87,72 +73,71 @@ function CheckoutForm(props) {
           isValid,
           errors
         }) => (
-          <Form>
+          <Form noValidate onSubmit={handleSubmit}>
             <Form.Row>
-              <Form.Group as={Col} md="4" controlId="firstName">
-                <Form.Label>First Name</Form.Label>
+              <Form.Group as={Col} md="4" controlId="validationFormikFirstName">
+                <Form.Label>First name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="First Name"
                   name="firstName"
                   value={values.firstName}
                   onChange={handleChange}
-                  isInvalid={!!errors.firstName}
+                  isValid={touched.firstName && !errors.firstName}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.firstName}
-                </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="4" controlId="lastName">
-                <Form.Label>Last Name</Form.Label>
+              <Form.Group as={Col} md="4" controlId="validationFormikLastName">
+                <Form.Label>Last name</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Last Name"
                   name="lastName"
                   value={values.lastName}
                   onChange={handleChange}
-                  isInvalid={!!errors.lastName}
+                  isValid={touched.firstName && !errors.lastName}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.lastName}
-                </Form.Control.Feedback>
+
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="streetLineOne">
-                <Form.Label>Street Address Line 1</Form.Label>
+              <Form.Group
+                as={Col}
+                md="4"
+                controlId="validationFormikStreetLineOne"
+              >
+                <Form.Label>Street Line 1</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Street Address Line 1"
                   name="streetLineOne"
                   value={values.streetLineOne}
                   onChange={handleChange}
-                  isInvalid={!!errors.streetLineOne}
+                  isValid={touched.streetLineOne && !errors.streetLineOne}
                 />
 
-                <Form.Control.Feedback type="invalid">
-                  {errors.streetLineOne}
-                </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="6" controlId="streetLineTwo">
-                <Form.Label>Street Address Line 2</Form.Label>
+
+              <Form.Group
+                as={Col}
+                md="4"
+                controlId="validationFormikStreetLineTwo"
+              >
+                <Form.Label>Street Line 2</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Street Address Line 2"
                   name="streetLineTwo"
                   value={values.streetLineTwo}
                   onChange={handleChange}
-                  isInvalid={!!errors.streetLineTwo}
+                  isValid={touched.streetLineTwo && !errors.streetLineTwo}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.streetLineTwo}
-                </Form.Control.Feedback>
+
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="city">
+              <Form.Group as={Col} md="6" controlId="validationFormikCity">
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   type="text"
@@ -167,7 +152,7 @@ function CheckoutForm(props) {
                   {errors.city}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="state">
+              <Form.Group as={Col} md="3" controlId="validationFormikState">
                 <Form.Label>State</Form.Label>
                 <Form.Control
                   type="text"
@@ -181,7 +166,7 @@ function CheckoutForm(props) {
                   {errors.state}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="zip">
+              <Form.Group as={Col} md="3" controlId="validationFormikZip">
                 <Form.Label>Zip</Form.Label>
                 <Form.Control
                   type="text"
@@ -198,10 +183,12 @@ function CheckoutForm(props) {
               </Form.Group>
             </Form.Row>
 
-            <h4>Payment Information</h4>
-
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="paymentCardNumber">
+              <Form.Group
+                as={Col}
+                md="6"
+                controlId="validationFormikPaymentCardNumber"
+              >
                 <Form.Label>Card Number</Form.Label>
                 <Form.Control
                   type="text"
@@ -219,21 +206,30 @@ function CheckoutForm(props) {
             </Form.Row>
 
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="paymentCardExpiration">
-                <Form.Label>Expiration (MM/YY)</Form.Label>
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validationFormikPaymentCardExpiration"
+              >
+                <Form.Label>Exp (MM/YYYY)</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Exp"
+                  placeholder="Expiration"
                   name="paymentCardExpiration"
                   value={values.paymentCardExpiration}
                   onChange={handleChange}
                   isInvalid={!!errors.paymentCardExpiration}
                 />
+
                 <Form.Control.Feedback type="invalid">
                   {errors.paymentCardExpiration}
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="6" controlId="paymentCardCVV">
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validationFormikPaymentCardCVV"
+              >
                 <Form.Label>CVV</Form.Label>
                 <Form.Control
                   type="text"
@@ -243,12 +239,14 @@ function CheckoutForm(props) {
                   onChange={handleChange}
                   isInvalid={!!errors.paymentCardCVV}
                 />
+
                 <Form.Control.Feedback type="invalid">
                   {errors.paymentCardCVV}
                 </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
-            <Button type="submit">Confirm and Pay</Button>
+
+            <Button type="submit">Submit Payment</Button>
           </Form>
         )}
       </Formik>
@@ -257,14 +255,6 @@ function CheckoutForm(props) {
 }
 
 function SuccessModal(props) {
-  console.log("SuccessModal Props: ", props);
-  const [lgShow, setLgShow] = useState(true);
-
-  /*
-  <Button onClick={() => setSmShow(true)}>Small modal</Button>
-  <Button onClick={() => setLgShow(true)}>Large modal</Button>
-  */
-
   const hideModal = () => {
     props.hideModal();
   };
