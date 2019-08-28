@@ -3,18 +3,39 @@ import ProductListItem from "./ProductListItem";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      products: null
+      products: null,
+      filteredProducts: null,
+      searchText: ""
     };
 
     this.renderProducts = this.renderProducts.bind(this);
     this.chunkProductsArray = this.chunkProductsArray.bind(this);
   }
+
+  onSearchClicked = () => {
+    if (this.state.searchText.length === 0) {
+      this.setState({ filteredProducts: this.state.products });
+    }
+
+    const filteredProducts = this.state.products.filter(product => {
+      return product.product_name.search(this.state.searchText) !== -1;
+    });
+
+    this.setState({ filteredProducts });
+  };
+
+  handleChange = event => {
+    this.setState({ searchText: event.target.value });
+  };
 
   componentDidMount() {
     fetch("https://my.api.mockaroo.com/product_catalog.json?key=866ae800")
@@ -24,7 +45,10 @@ class ProductList extends React.Component {
           return { ...element, quantity: 1 };
         });
 
-        this.setState({ products: enrichedData });
+        this.setState({
+          products: enrichedData,
+          filteredProducts: enrichedData
+        });
       })
       .catch(error => {
         console.log("Error: ", error);
@@ -34,7 +58,7 @@ class ProductList extends React.Component {
   chunkProductsArray() {
     // Fun stuff: https://stackoverflow.com/questions/8495687/split-array-into-chunks/10456644#10456644
     let perChunk = 3; // items per chunk
-    let inputArray = this.state.products;
+    let inputArray = this.state.filteredProducts;
     const result = inputArray.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / perChunk);
 
@@ -53,7 +77,7 @@ class ProductList extends React.Component {
   renderProducts() {
     // First, split this.state.products into many arrays of length three.
     // Render each individual array as a row on the grid.
-    if (this.state.products) {
+    if (this.state.filteredProducts) {
       let rows = this.chunkProductsArray();
       return rows.map((products, productPageIndex) => {
         return (
@@ -83,7 +107,20 @@ class ProductList extends React.Component {
   render() {
     return (
       <div>
-        <Container>{this.renderProducts()}</Container>
+        <Container>
+          <Form inline>
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-sm-2"
+              onChange={this.handleChange}
+            />
+            <Button variant="outline-success" onClick={this.onSearchClicked}>
+              Search
+            </Button>
+          </Form>
+          {this.renderProducts()}
+        </Container>
       </div>
     );
   }
