@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CheckoutForm from "../../CheckoutForm/CheckoutForm";
+import CheckoutInformationForm from "../../CheckoutForm/CheckoutInformationForm";
 
 class CheckoutPage extends React.Component {
   render() {
@@ -20,7 +21,10 @@ class CheckoutPage extends React.Component {
           <h4>Shipping Information</h4>
         </Row>
         <Row>
-          <CheckoutForm />
+          {/*
+            <CheckoutForm />*/}
+
+          <CheckoutInformationForm />
         </Row>
       </Container>
     );
