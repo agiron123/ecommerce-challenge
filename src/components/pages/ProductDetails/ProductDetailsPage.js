@@ -31,14 +31,9 @@ class ProductDetailsPage extends React.Component {
   }
 
   onAddToCartPressed() {
-    let item = {
-      productId: this.state.productDetails.productId,
-      color: this.state.productDetails.color,
-      image: this.state.productDetails.image,
-      price: this.state.productDetails.price,
-      productCategory: this.state.productDetails.productCategory,
-      productName: this.state.productDetails.productName,
-      description: this.state.productDetails.description
+    const item = {
+      ...this.state.productDetails,
+      quantity: this.state.quantity
     };
 
     this.props.addItemToCart(item);
@@ -75,16 +70,16 @@ class ProductDetailsPage extends React.Component {
 
               <Button
                 variant="outline-primary"
-                onClick={this.onIncrementButtonPressed}
+                onClick={this.onDecrementButtonPressed}
               >
-                +
+                -
               </Button>
 
               <Button
                 variant="outline-primary"
-                onClick={this.onDecrementButtonPressed}
+                onClick={this.onIncrementButtonPressed}
               >
-                -
+                +
               </Button>
 
               <p>Quantity: {this.state.quantity}</p>

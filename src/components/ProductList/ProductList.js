@@ -20,8 +20,13 @@ class ProductList extends React.Component {
     fetch("https://my.api.mockaroo.com/product_catalog.json?key=866ae800")
       .then(response => response.json())
       .then(data => {
-        console.log("Fetched Data: ", data);
-        this.setState({ products: data });
+        let enrichedData = data.map(element => {
+          return { ...element, quantity: 1 };
+        });
+
+        console.log("Enriched Data: ", enrichedData);
+
+        this.setState({ products: enrichedData });
       })
       .catch(error => {
         console.log("Error: ", error);

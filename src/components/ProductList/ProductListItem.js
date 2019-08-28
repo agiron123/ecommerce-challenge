@@ -21,7 +21,8 @@ class ProductListItem extends React.Component {
       price: this.props.price,
       productCategory: this.props.productCategory,
       productName: this.props.productName,
-      description: this.props.description
+      description: this.props.description,
+      quantity: 1 // Static at one as you can't edit quantity in the list item.
     };
 
     this.props.addItemToCart(item);
@@ -36,7 +37,8 @@ class ProductListItem extends React.Component {
         price: this.props.price,
         productCategory: this.props.productCategory,
         productName: this.props.productName,
-        description: this.props.description
+        description: this.props.description,
+        quantity: 1 // Static at one as you can't edit quantity in the list item.
       }
     });
   }
