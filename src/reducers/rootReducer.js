@@ -2,6 +2,7 @@ import { ADD_ITEM, REMOVE_ITEM, UPDATE_ITEM } from "../actions/cartActions";
 
 import { combineReducers } from "redux";
 
+// TODO: Move cartReducer out to it's own file.
 function cartReducer(
   state = {
     items: []

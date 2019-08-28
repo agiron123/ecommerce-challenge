@@ -11,21 +11,29 @@ class ProductDetailsPage extends React.Component {
     super(props);
 
     this.state = {
-      productDetails: null
+      productDetails: null,
+      quantity: 1
     };
 
     this.onAddToCartPressed = this.onAddToCartPressed.bind(this);
+    this.onIncrementButtonPressed = this.onIncrementButtonPressed.bind(this);
+    this.onDecrementButtonPressed = this.onDecrementButtonPressed.bind(this);
+  }
+
+  onIncrementButtonPressed() {
+    this.setState({ quantity: this.state.quantity + 1 });
+  }
+
+  onDecrementButtonPressed() {
+    if (this.state.quantity > 1) {
+      this.setState({ quantity: this.state.quantity - 1 });
+    }
   }
 
   onAddToCartPressed() {
-    let item = {
-      productId: this.state.productDetails.productId,
-      color: this.state.productDetails.color,
-      image: this.state.productDetails.image,
-      price: this.state.productDetails.price,
-      productCategory: this.state.productDetails.productCategory,
-      productName: this.state.productDetails.productName,
-      description: this.state.productDetails.description
+    const item = {
+      ...this.state.productDetails,
+      quantity: this.state.quantity
     };
 
     this.props.addItemToCart(item);
@@ -59,7 +67,30 @@ class ProductDetailsPage extends React.Component {
             <Col>
               <h3>{this.state.productDetails.productCategory}</h3>
               <h2>{this.state.productDetails.productName}</h2>
-              <p>${this.state.productDetails.price}</p>
+
+              <Button
+                variant="outline-primary"
+                onClick={this.onDecrementButtonPressed}
+              >
+                -
+              </Button>
+
+              <Button
+                variant="outline-primary"
+                onClick={this.onIncrementButtonPressed}
+              >
+                +
+              </Button>
+
+              <p>Quantity: {this.state.quantity}</p>
+
+              <p>
+                $
+                {(
+                  this.state.productDetails.price * this.state.quantity
+                ).toFixed(2)}
+              </p>
+
               <Button
                 variant="outline-primary"
                 onClick={this.onAddToCartPressed}

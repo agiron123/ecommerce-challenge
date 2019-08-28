@@ -32,7 +32,7 @@ class CartPage extends React.Component {
 
     let total = 0;
     this.props.cartItems.forEach(element => {
-      total = total + element.price;
+      total = total + element.price * element.quantity;
     });
 
     return total.toFixed(2); // Round to two decimal places for $$
@@ -67,8 +67,8 @@ class CartPage extends React.Component {
               </Col>
               <Col>
                 <h3>{cartItem.productName}</h3>
-                <p>{cartItem.price}</p>
-                <p>Quantity: 1</p>
+                <p>{(cartItem.price * cartItem.quantity).toFixed(2)}</p>
+                <p>Quantity: {cartItem.quantity}</p>
                 <p>Color: {cartItem.color}</p>
                 <Button
                   variant="outline-primary"
