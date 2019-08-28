@@ -21,6 +21,46 @@ class ProductList extends React.Component {
     this.chunkProductsArray = this.chunkProductsArray.bind(this);
   }
 
+  onSortByCategoryClicked = () => {
+    let sortedProducts = this.state.filteredProducts;
+
+    sortedProducts.sort((a, b) => {
+      const productCategoryA = a.product_category.toUpperCase();
+      const productCategoryB = b.product_category.toUpperCase();
+
+      if (productCategoryA < productCategoryB) {
+        return -1;
+      }
+      if (productCategoryA > productCategoryB) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    this.setState({ filteredProducts: sortedProducts });
+  };
+
+  onSortByNameClicked = () => {
+    let sortedProducts = this.state.filteredProducts;
+
+    sortedProducts.sort((a, b) => {
+      const productCategoryA = a.product_name.toUpperCase();
+      const productCategoryB = b.product_name.toUpperCase();
+
+      if (productCategoryA < productCategoryB) {
+        return -1;
+      }
+      if (productCategoryA > productCategoryB) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    this.setState({ filteredProducts: sortedProducts });
+  };
+
   onSearchClicked = () => {
     if (this.state.searchText.length === 0) {
       this.setState({ filteredProducts: this.state.products });
@@ -117,6 +157,20 @@ class ProductList extends React.Component {
             />
             <Button variant="outline-success" onClick={this.onSearchClicked}>
               Search
+            </Button>
+
+            <Button
+              variant="outline-success"
+              onClick={this.onSortByNameClicked}
+            >
+              Sort by Name
+            </Button>
+
+            <Button
+              variant="outline-success"
+              onClick={this.onSortByCategoryClicked}
+            >
+              Sort by Category
             </Button>
           </Form>
           {this.renderProducts()}
