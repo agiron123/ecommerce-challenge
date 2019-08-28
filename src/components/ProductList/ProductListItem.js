@@ -1,3 +1,4 @@
+import "./ProductListItem.css";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
@@ -42,7 +43,7 @@ class ProductListItem extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="product-list-item">
         <img
           width={250}
           height={250}
@@ -51,11 +52,15 @@ class ProductListItem extends React.Component {
         />
         <div>{this.props.productCategory}</div>
         <div>{this.props.productName}</div>
-        <div>{this.props.price}</div>
+        <div>${this.props.price}</div>
         <Button variant="outline-info" onClick={this.onDetailsClicked}>
           Details >
         </Button>
-        <Button variant="outline-primary" onClick={this.onAddToCartClicked}>
+        <Button
+          variant="outline-primary"
+          onClick={this.onAddToCartClicked}
+          className="list-item-add-to-cart-button"
+        >
           Add to Cart
         </Button>
       </div>
