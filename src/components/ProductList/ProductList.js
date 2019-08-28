@@ -24,8 +24,6 @@ class ProductList extends React.Component {
           return { ...element, quantity: 1 };
         });
 
-        console.log("Enriched Data: ", enrichedData);
-
         this.setState({ products: enrichedData });
       })
       .catch(error => {
