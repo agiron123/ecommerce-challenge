@@ -22,12 +22,10 @@ class ProductList extends React.Component {
   }
 
   onSearchClicked = () => {
-    console.log("Search Clicked!");
-    debugger;
-
     if (this.state.searchText.length === 0) {
       this.setState({ filteredProducts: this.state.products });
     }
+
     const filteredProducts = this.state.products.filter(product => {
       return product.product_name.search(this.state.searchText) !== -1;
     });
@@ -36,7 +34,6 @@ class ProductList extends React.Component {
   };
 
   handleChange = event => {
-    console.log("SearchText: ", event.target.value);
     this.setState({ searchText: event.target.value });
   };
 
