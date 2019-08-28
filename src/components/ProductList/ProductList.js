@@ -61,6 +61,42 @@ class ProductList extends React.Component {
     this.setState({ filteredProducts: sortedProducts });
   };
 
+  onSortByPriceIncreasingClicked = () => {
+    let sortedProducts = this.state.filteredProducts;
+
+    sortedProducts.sort((a, b) => {
+      if (a.price < b.price) {
+        return -1;
+      }
+
+      if (a.price > b.price) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    this.setState({ filteredProducts: sortedProducts });
+  };
+
+  onSortByPriceDecreasingClicked = () => {
+    let sortedProducts = this.state.filteredProducts;
+
+    sortedProducts.sort((a, b) => {
+      if (a.price < b.price) {
+        return 1;
+      }
+
+      if (a.price > b.price) {
+        return -1;
+      }
+
+      return 0;
+    });
+
+    this.setState({ filteredProducts: sortedProducts });
+  };
+
   onSearchClicked = () => {
     if (this.state.searchText.length === 0) {
       this.setState({ filteredProducts: this.state.products });
@@ -171,6 +207,20 @@ class ProductList extends React.Component {
               onClick={this.onSortByCategoryClicked}
             >
               Sort by Category
+            </Button>
+
+            <Button
+              variant="outline-success"
+              onClick={this.onSortByPriceIncreasingClicked}
+            >
+              Sort by Price (Increasing)
+            </Button>
+
+            <Button
+              variant="outline-success"
+              onClick={this.onSortByPriceDecreasingClicked}
+            >
+              Sort by Price (Decreasing)
             </Button>
           </Form>
           {this.renderProducts()}
