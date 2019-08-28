@@ -15,10 +15,3 @@ export function removeItemFromCartByIndex(index) {
     index
   };
 }
-
-export function updateItemInCart(item) {
-  return {
-    type: UPDATE_ITEM,
-    item
-  };
-}
