@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import Pagination from "react-bootstrap/Pagination";
 
 class ProductList extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class ProductList extends React.Component {
     this.state = {
       products: null,
       filteredProducts: null,
-      searchText: ""
+      searchText: "",
+      currentPageIndex: 1
     };
 
     this.renderProducts = this.renderProducts.bind(this);
@@ -113,6 +115,12 @@ class ProductList extends React.Component {
     this.setState({ searchText: event.target.value });
   };
 
+  onPageClicked = pageNumber => {
+    this.setState({
+      currentPageIndex: pageNumber
+    });
+  };
+
   componentDidMount() {
     fetch("https://my.api.mockaroo.com/product_catalog.json?key=866ae800")
       .then(response => response.json())
@@ -131,12 +139,10 @@ class ProductList extends React.Component {
       });
   }
 
-  chunkProductsArray() {
+  chunkProductsArray(inputArray, rowSize) {
     // Fun stuff: https://stackoverflow.com/questions/8495687/split-array-into-chunks/10456644#10456644
-    let perChunk = 3; // items per chunk
-    let inputArray = this.state.filteredProducts;
     const result = inputArray.reduce((resultArray, item, index) => {
-      const chunkIndex = Math.floor(index / perChunk);
+      const chunkIndex = Math.floor(index / rowSize);
 
       if (!resultArray[chunkIndex]) {
         resultArray[chunkIndex] = []; // start a new chunk
@@ -154,47 +160,75 @@ class ProductList extends React.Component {
     // First, split this.state.products into many arrays of length three.
     // Render each individual array as a row on the grid.
     if (this.state.filteredProducts) {
-      let rows = this.chunkProductsArray();
-      return rows.map((products, productPageIndex) => {
-        return (
-          <Row key={productPageIndex}>
-            {products.map(product => {
-              return (
-                <Col>
-                  <ProductListItem
-                    key={product.product_id}
-                    productId={product.product_id}
-                    image={product.image}
-                    productCategory={product.product_category}
-                    productName={product.product_name}
-                    price={product.price}
-                    description={product.description}
-                    color={product.color}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        );
-      });
+      let rows = this.chunkProductsArray(this.state.filteredProducts, 3);
+      let pages = this.chunkProductsArray(rows, 3);
+
+      return pages[this.state.currentPageIndex - 1].map(
+        (products, productPageIndex) => {
+          return (
+            <Row key={productPageIndex}>
+              {products.map(product => {
+                return (
+                  <Col>
+                    <ProductListItem
+                      key={product.product_id}
+                      productId={product.product_id}
+                      image={product.image}
+                      productCategory={product.product_category}
+                      productName={product.product_name}
+                      price={product.price}
+                      description={product.description}
+                      color={product.color}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+          );
+        }
+      );
     }
   }
 
   render() {
+    let items = [];
+    if (this.state.filteredProducts) {
+      // For now, let's assume that there are three rows and three columns per page.
+      const numRows = 3;
+      const numCols = 3;
+      const numPages = Math.ceil(
+        this.state.filteredProducts.length / (numRows * numCols)
+      );
+      for (let number = 1; number <= numPages; number++) {
+        items.push(
+          <Pagination.Item
+            key={number}
+            active={number === this.state.currentPageIndex}
+            vallue={number}
+            onClick={this.onPageClicked.bind(this, number)}
+          >
+            {number}
+          </Pagination.Item>
+        );
+      }
+    }
+
     return (
       <div>
         <Container>
           <Form inline>
             <FormControl
               type="text"
-              placeholder="Search"
+              placeholder="Search by name"
               className="mr-sm-2"
               onChange={this.handleChange}
             />
             <Button variant="outline-success" onClick={this.onSearchClicked}>
               Search
             </Button>
-
+          </Form>
+          <div>
+            <p>Filter: </p>
             <Button
               variant="outline-success"
               onClick={this.onSortByNameClicked}
@@ -222,8 +256,10 @@ class ProductList extends React.Component {
             >
               Sort by Price (Decreasing)
             </Button>
-          </Form>
+          </div>
           {this.renderProducts()}
+          Page:
+          <Pagination size="lg">{items}</Pagination>
         </Container>
       </div>
     );
