@@ -1,3 +1,4 @@
+import "./ProductList.css";
 import React from "react";
 import ProductListItem from "./ProductListItem";
 import Container from "react-bootstrap/Container";
@@ -7,6 +8,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
+import Spinner from "react-bootstrap/Spinner";
 
 class ProductList extends React.Component {
   constructor(props) {
@@ -16,7 +18,8 @@ class ProductList extends React.Component {
       products: null,
       filteredProducts: null,
       searchText: "",
-      currentPageIndex: 1
+      currentPageIndex: 1,
+      isLoading: true
     };
 
     this.renderProducts = this.renderProducts.bind(this);
@@ -131,7 +134,8 @@ class ProductList extends React.Component {
 
         this.setState({
           products: enrichedData,
-          filteredProducts: enrichedData
+          filteredProducts: enrichedData,
+          isLoading: false
         });
       })
       .catch(error => {
@@ -215,52 +219,58 @@ class ProductList extends React.Component {
 
     return (
       <div>
-        <Container>
-          <Form inline>
-            <FormControl
-              type="text"
-              placeholder="Search by name"
-              className="mr-sm-2"
-              onChange={this.handleChange}
-            />
-            <Button variant="outline-success" onClick={this.onSearchClicked}>
-              Search
-            </Button>
-          </Form>
-          <div>
-            <p>Filter: </p>
-            <Button
-              variant="outline-success"
-              onClick={this.onSortByNameClicked}
-            >
-              Sort by Name
-            </Button>
-
-            <Button
-              variant="outline-success"
-              onClick={this.onSortByCategoryClicked}
-            >
-              Sort by Category
-            </Button>
-
-            <Button
-              variant="outline-success"
-              onClick={this.onSortByPriceIncreasingClicked}
-            >
-              Sort by Price (Increasing)
-            </Button>
-
-            <Button
-              variant="outline-success"
-              onClick={this.onSortByPriceDecreasingClicked}
-            >
-              Sort by Price (Decreasing)
-            </Button>
+        {this.state.isLoading ? (
+          <div className="loading-spinner-container">
+            <Spinner animation="border" className="loading-spinner" />
           </div>
-          {this.renderProducts()}
-          Page:
-          <Pagination size="lg">{items}</Pagination>
-        </Container>
+        ) : (
+          <Container>
+            <Form inline>
+              <FormControl
+                type="text"
+                placeholder="Search by name"
+                className="mr-sm-2"
+                onChange={this.handleChange}
+              />
+              <Button variant="outline-success" onClick={this.onSearchClicked}>
+                Search
+              </Button>
+            </Form>
+            <div>
+              <p>Filter: </p>
+              <Button
+                variant="outline-success"
+                onClick={this.onSortByNameClicked}
+              >
+                Sort by Name
+              </Button>
+
+              <Button
+                variant="outline-success"
+                onClick={this.onSortByCategoryClicked}
+              >
+                Sort by Category
+              </Button>
+
+              <Button
+                variant="outline-success"
+                onClick={this.onSortByPriceIncreasingClicked}
+              >
+                Sort by Price (Increasing)
+              </Button>
+
+              <Button
+                variant="outline-success"
+                onClick={this.onSortByPriceDecreasingClicked}
+              >
+                Sort by Price (Decreasing)
+              </Button>
+            </div>
+            {this.renderProducts()}
+            Page:
+            <Pagination size="lg">{items}</Pagination>
+          </Container>
+        )}
       </div>
     );
   }
