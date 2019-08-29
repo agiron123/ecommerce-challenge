@@ -33,8 +33,8 @@ const schema = Yup.object({
     .max(12, "Too Long!")
     .required("Required"),
   paymentCardNumber: Yup.string()
-    .min(14, "Too Short!")
-    .max(17, "Too Long!")
+    .min(15, "Too Short!")
+    .max(16, "Too Long!")
     .required("Required"),
   paymentCardExpiration: Yup.string().required("Required"),
   paymentCardCVV: Yup.string().required("Required")
@@ -59,10 +59,7 @@ function CheckoutForm(props) {
           // applying HOC-pattern
           actions.setSubmitting(false);
         }}
-        initialValues={{
-          firstName: "Mark",
-          lastName: "Otto"
-        }}
+        initialValues={{}}
       >
         {({
           handleSubmit,
@@ -83,7 +80,11 @@ function CheckoutForm(props) {
                   value={values.firstName}
                   onChange={handleChange}
                   isValid={touched.firstName && !errors.firstName}
+                  isInvalid={!!errors.firstName}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.firstName}
+                </Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationFormikLastName">
@@ -94,8 +95,12 @@ function CheckoutForm(props) {
                   value={values.lastName}
                   onChange={handleChange}
                   isValid={touched.firstName && !errors.lastName}
+                  isInvalid={!!errors.lastName}
                 />
 
+                <Form.Control.Feedback type="invalid">
+                  {errors.lastName}
+                </Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
@@ -113,8 +118,12 @@ function CheckoutForm(props) {
                   value={values.streetLineOne}
                   onChange={handleChange}
                   isValid={touched.streetLineOne && !errors.streetLineOne}
+                  isInvalid={!!errors.streetLineOne}
                 />
 
+                <Form.Control.Feedback type="invalid">
+                  {errors.streetLineOne}
+                </Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
 
@@ -123,15 +132,19 @@ function CheckoutForm(props) {
                 md="4"
                 controlId="validationFormikStreetLineTwo"
               >
-                <Form.Label>Street Line 2</Form.Label>
+                <Form.Label>Street Line 2 (Optional)</Form.Label>
                 <Form.Control
                   type="text"
                   name="streetLineTwo"
                   value={values.streetLineTwo}
                   onChange={handleChange}
                   isValid={touched.streetLineTwo && !errors.streetLineTwo}
+                  isInvalid={!!errors.streetLineTwo}
                 />
 
+                <Form.Control.Feedback type="invalid">
+                  {errors.streetLineTwo}
+                </Form.Control.Feedback>
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
@@ -146,11 +159,13 @@ function CheckoutForm(props) {
                   value={values.city}
                   onChange={handleChange}
                   isInvalid={!!errors.city}
+                  isValid={touched.city && !errors.city}
                 />
 
                 <Form.Control.Feedback type="invalid">
                   {errors.city}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="3" controlId="validationFormikState">
                 <Form.Label>State</Form.Label>
@@ -161,10 +176,12 @@ function CheckoutForm(props) {
                   value={values.state}
                   onChange={handleChange}
                   isInvalid={!!errors.state}
+                  isValid={touched.state && !errors.state}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.state}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="3" controlId="validationFormikZip">
                 <Form.Label>Zip</Form.Label>
@@ -175,11 +192,13 @@ function CheckoutForm(props) {
                   value={values.zip}
                   onChange={handleChange}
                   isInvalid={!!errors.zip}
+                  isValid={touched.zip && !errors.zip}
                 />
 
                 <Form.Control.Feedback type="invalid">
                   {errors.zip}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 
@@ -197,11 +216,15 @@ function CheckoutForm(props) {
                   value={values.paymentCardNumber}
                   onChange={handleChange}
                   isInvalid={!!errors.paymentCardNumber}
+                  isValid={
+                    touched.paymentCardNumber && !errors.paymentCardNumber
+                  }
                 />
 
                 <Form.Control.Feedback type="invalid">
                   {errors.paymentCardNumber}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 
@@ -219,11 +242,16 @@ function CheckoutForm(props) {
                   value={values.paymentCardExpiration}
                   onChange={handleChange}
                   isInvalid={!!errors.paymentCardExpiration}
+                  isValid={
+                    touched.paymentCardExpiration &&
+                    !errors.paymentCardInformation
+                  }
                 />
 
                 <Form.Control.Feedback type="invalid">
                   {errors.paymentCardExpiration}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
               <Form.Group
                 as={Col}
@@ -238,11 +266,13 @@ function CheckoutForm(props) {
                   value={values.paymentCardCVV}
                   onChange={handleChange}
                   isInvalid={!!errors.paymentCardCVV}
+                  isValid={touched.paymentCardCVV && !errors.paymentCardCVV}
                 />
 
                 <Form.Control.Feedback type="invalid">
                   {errors.paymentCardCVV}
                 </Form.Control.Feedback>
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
 
