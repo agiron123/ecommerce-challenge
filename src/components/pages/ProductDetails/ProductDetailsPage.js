@@ -41,10 +41,6 @@ class ProductDetailsPage extends React.Component {
 
   componentDidMount() {
     if (this.props.history.location) {
-      console.log(
-        "Product Details: ",
-        this.props.history.location.state.productDetails
-      );
       this.setState({
         productDetails: this.props.history.location.state.productDetails
       });

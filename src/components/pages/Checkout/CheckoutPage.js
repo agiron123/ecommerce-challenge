@@ -12,11 +12,6 @@ class CheckoutPage extends React.Component {
           <h3>Checkout</h3>
         </Row>
         <Row>
-          <Col>
-            <p>Your Total: $450.00</p>
-          </Col>
-        </Row>
-        <Row>
           <h4>Shipping Information</h4>
         </Row>
         <Row>
